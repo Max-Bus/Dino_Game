@@ -18,7 +18,7 @@ public class dinogame extends JFrame {
 
     public static void main(String[] args) {
         JFrame frame = new dinogame();
-        frame.setTitle("Raising Flag");
+        frame.setTitle("Dino McMan");
         frame.setSize(400, 400);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
