@@ -28,11 +28,9 @@ public class dinogame extends JFrame {
     class Dino extends JPanel {
         int nextshape = 0;
         int score = 0;
-        dinosaur dino = new dinosaur(5);
         int speed = 4;
-        landscape thebackround = new landscape();
-        dino2 d = new dino2(getWidth());
         int x = 0;
+        boolean haslost=false;
         int k = 0;
         int[] list ={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
         int vel =1;
@@ -48,8 +46,8 @@ public class dinogame extends JFrame {
                     if (e.getKeyCode()==KeyEvent.VK_UP&&jump<6){
                         timealoft=5;
                     }
-                    else if(e.getKeyCode()==KeyEvent.VK_DOWN)
-                        jump-=10;
+                    else if(e.getKeyCode()==KeyEvent.VK_DOWN&&jump>6)
+                        jump/=5;
 
                 }
             });
@@ -67,12 +65,14 @@ public class dinogame extends JFrame {
                 x -= vel/100;
                 k++;
                 if (timealoft>0) {
-                    dino.jump+=10;
+                    jump+=10;
                     timealoft--;
                 }
                 else if (jump>5){
                     jump-=5;
                 }
+                if(jump<5)
+                    jump=5;
 
                 Random rand = new Random();
                 if (k >1){
@@ -81,8 +81,9 @@ public class dinogame extends JFrame {
                     }
                     list[19] = rand.nextInt(6);
                     k=0;
-
-                    score++;
+                    if (!haslost) {
+                        score++;
+                    }
                     score1.setText("score:"+score);
                     speed++;
                 }
@@ -111,39 +112,15 @@ public class dinogame extends JFrame {
                 }
 
             }
+            g.fillRect((getWidth())/10,(getHeight()/2)-jump,5,5);
+            if ((list[2]==1&&jump<15)||(list[2]==2&&jump<10)) {
+                System.out.println("you lose");
+                haslost=true;
+            }
 
 
 
         }
     }
-    class dinosaur extends JPanel{
-        int jump = 0;
-        public dinosaur(int jump){
-            this.jump = jump;
-            repaint();
-        }
-        protected void paintComponent(Graphics g) {
-            super.paintComponent(g);
-            g.fillRect(getWidth()/10,(getHeight()/2)-jump,5,5);
 
-        }
-        public void repaint1(){
-            repaint();
-        }
-        public boolean isdead(int type){
-            if (type ==1&&jump<10)
-                return true;
-            else if (type ==2&&jump<5)
-                return true;
-            return false;
-        }
-
-        public int getJump() {
-            return jump;
-        }
-
-        public void setJump(int jump) {
-            this.jump = jump;
-        }
-    }
 }
