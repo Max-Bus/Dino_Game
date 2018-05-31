@@ -38,7 +38,7 @@ public class dinogame extends JFrame {
         int jump = 5;
         JLabel score1 = new JLabel("score:");
         public Dino() {
-            Timer timer = new Timer(400 / speed, new spawnthing());
+            Timer timer = new Timer(400/ speed, new spawnthing());
             timer.start();
             addKeyListener(new KeyAdapter() {
                 @Override
@@ -62,7 +62,6 @@ public class dinogame extends JFrame {
         public class spawnthing implements ActionListener {
             @Override
             public void actionPerformed(ActionEvent e) {
-                x -= vel/100;
                 k++;
                 if (timealoft>0) {
                     jump+=10;
@@ -80,12 +79,19 @@ public class dinogame extends JFrame {
                         list[i]=list[i+1];
                     }
                     list[19] = rand.nextInt(6);
-                    k=0;
                     if (!haslost) {
                         score++;
                     }
+                    else {
+                        score=0;
+                        for (int i = 0; i < 20; i++) {
+                            list[i]=0;
+                        }
+                        haslost=!haslost;
+                    }
                     score1.setText("score:"+score);
                     speed++;
+                    k=0;
                 }
                 for (int i = 0; i < 9; i+=3) {
                     if((list[i]==1||list[i]==2)&&(list[i+1]==1||list[i+1]==2)&&(list[i+2]==1||list[i+2]==2)){
@@ -100,8 +106,6 @@ public class dinogame extends JFrame {
             super.paintComponent(g);
             g.drawLine(x, getHeight() / 2, x + getWidth(), getHeight()/2);
             for(int i = 0;i<20;i++) {
-                if (list[i] == 0||list[i] ==3 ||list[i] ==4||list[i] ==5)
-                    g.drawLine((i *getWidth()) / 20, getHeight() / 2, ((i *getWidth()) +getWidth()) / 20, getHeight() / 2);
                 if (list[i] == 1) {
                     g.drawRect((i *getWidth()) / 20, (getHeight()/2)-10, (getWidth()) / 20, 10);
                     g.drawLine(((2 * (i *getWidth())) + getWidth()) / 20, getHeight()/2, (i + getWidth()) / 5, getHeight()/2);
